@@ -8,6 +8,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
+// swagger
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
 // Configurações
 const saltRounds = 10;
 const secret = process.env.JWT_SECRET || "fallbackSecret";
@@ -151,6 +156,11 @@ app.get("/users", async (req, res) => {
 		});
 	}
 });
+
+/**
+ * Swagger - Rota de documentação
+ */
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
 	console.log(`Servidor rodando na porta ${port}`);

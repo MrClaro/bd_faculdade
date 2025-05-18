@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: API de Autenticação - Projeto UNIFIO
+  version: 1.0.0
+  description: >
+    API demonstrando autenticação com JWT, criptografia com bcrypt,
+    persistência de dados com MongoDB (NoSQL) e rotas protegidas.
+
+servers:
+  - url: http://localhost:4000
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    LoginResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        message:
+          type: string
+    ProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        iat:
+          type: integer
+        exp:
+          type: integer
+
+paths:
+  /register:
+    post:
+      summary: Registra um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: Usuário registrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Username já está em uso
+        "500":
+          description: Erro no cadastro
+
+  /login:
+    post:
+      summary: Faz login do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login bem-sucedido (JWT setado no cookie)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Credenciais inválidas
+        "500":
+          description: Erro no login
+
+  /profile:
+    get:
+      summary: Retorna dados do usuário autenticado
+      responses:
+        "200":
+          description: Perfil do usuário autenticado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileResponse"
+        "401":
+          description: Não autenticado ou token inválido
+
+  /logout:
+    post:
+      summary: Faz logout limpando o cookie JWT
+      responses:
+        "200":
+          description: Logout realizado com sucesso
+
+  /users:
+    get:
+      summary: Retorna lista de todos os usuários (sem senhas)
+      responses:
+        "200":
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    username:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date-time
+        "500":
+          description: Erro ao buscar usuários
