@@ -143,6 +143,7 @@ app.post("/logout", (req, res) => {
 app.get("/users", async (req, res) => {
 	try {
 		const users = await User.find()
+			.where({ active: true })
 			.select("-password -__v")
 			.sort({ createdAt: -1 })
 			.lean();
@@ -154,6 +155,28 @@ app.get("/users", async (req, res) => {
 			message: "Erro na consulta",
 			errorCode: "USER_QUERY_ERROR",
 		});
+	}
+});
+
+/**
+ * Rota de desativação de usuário - Demonstra:
+ * - Atualização de documento NoSQL
+ */
+app.put("/users/:id/deactivate", async (req, res) => {
+	const { id } = req.params;
+	try {
+		const user = await User.findByIdAndUpdate(
+			id,
+			{ active: false },
+			{ new: true },
+		);
+		if (!user)
+			return res.status(404).json({ message: "Usuário não encontrado" });
+		res.json({ message: "Usuário desativado" });
+	} catch (err) {
+		res
+			.status(500)
+			.json({ message: "Erro ao desativar o usuário", error: err.message });
 	}
 });
 

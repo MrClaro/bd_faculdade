@@ -17,6 +17,10 @@ const UserSchema = new Schema({
 		required: [true, "Senha é obrigatória"],
 		minlength: [8, "Senha deve ter pelo menos 8 caracteres"],
 	},
+	active: {
+		type: Boolean,
+		default: true,
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now,
