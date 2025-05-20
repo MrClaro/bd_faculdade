@@ -27,7 +27,4 @@ const UserSchema = new Schema({
 	},
 });
 
-// Índice para otimizar consultas por username
-UserSchema.index({ username: 1 });
-
 module.exports = model("User", UserSchema);

@@ -7,6 +7,7 @@ const app = express();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 // swagger
 const swaggerUi = require("swagger-ui-express");
@@ -27,6 +28,11 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+// Logger
+if (process.env.NODE_ENV !== "production") {
+	app.use(morgan("dev"));
+}
 
 // Conexão com MongoDB (NoSQL)
 mongoose
