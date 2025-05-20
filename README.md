@@ -67,6 +67,7 @@ npm start
 
 ### 🌐 Site oficial do MongoDBb
 - [mongodb](https://www.mongodb.com/)
+- [mongodb-clusters](https://www.mongodb.com/resources/products/fundamentals/clusters)
 
 
 ### 📚 Objetivo
