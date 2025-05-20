@@ -20,6 +20,19 @@ git clone https://github.com/MrClaro/bd_faculdade.git
 ```bash
 cd bd_faculdade/api
 ```
+No Windows (CMD ou PowerShell):
+```bash
+cd bd_faculdade\api
+```
+- 💡 Dica: Se quiser listar as pastas e arquivos no terminal, use:
+- No Linux/macOS:
+```bash
+ ls
+ ```
+- No Windows:
+```bash
+  dir
+ ```
 
 ### 3. Instale as dependências
 ```bash
